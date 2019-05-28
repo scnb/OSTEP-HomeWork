@@ -3,11 +3,12 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <string.h>
+#include <signal.h>
+#include <sys/wait.h>
 
 int main(int argc,char *argv[])
 {
 	int rc = fork();
-	int fp = open("ok.test",O_CREAT|O_RDWR,S_IRWXU);
 	if (rc < 0)
 	{
 		fprintf(stderr,"fork failed\n");
@@ -16,16 +17,10 @@ int main(int argc,char *argv[])
 	else if (rc == 0)
 	{
 		printf("hello\n");
-		write(fp,"ok",2);
 	}
 	else
 	{
-		char str[2];
-		read(fp,str,2);
-		while (strcmp(str,"ok")!=0)
-		{
-			read(fp,str,2);
-		}
+		waitpid(rc);
 		printf("goodbye\n");
 	}
 	return 0;
