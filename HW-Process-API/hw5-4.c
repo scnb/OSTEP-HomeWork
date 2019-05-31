@@ -17,7 +17,14 @@ int main(int argc, char *argv[])
 		char *myargs[2];
 		myargs[0] = "/bin/ls";
 		myargs[1] = NULL;
-		execvp(myargs[0],myargs);
+		//1.
+	//	execvp(myargs[0],myargs);
+		//2.
+   //   execl("/bin/ls","ls",NULL);
+		//3.
+   //	execlp("/bin/ls","ls",NULL);
+		//4.
+		execv(myargs[0],myargs);
 	}
 	else
 	{
